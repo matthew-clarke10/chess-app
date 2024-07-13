@@ -72,7 +72,7 @@ const Puzzle = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row mx-8">
+      <div className="flex flex-col md:flex-row">
         <div className="flex w-full mx-auto">
           <Chessboard
             boardWidth={boardWidth}
@@ -82,9 +82,9 @@ const Puzzle = () => {
             }}
           />
         </div>
-        <div className="flex flex-col w-full text-center">
-          <div className="flex flex-col h-full">
-            <h2>White to Play</h2>
+        <div className="flex flex-col w-full text-center bg-red-200">
+          <div className="flex flex-col justify-center items-center h-full">
+            <h2 className="text-4xl">White to Play</h2>
             <div>Hint</div>
             <div>View Solution</div>
           </div>
