@@ -1,8 +1,8 @@
 const Statistics = () => {
   return (
-    <>
-      <h1>Statistics</h1>
-    </>
+    <main className="flex justify-center items-center h-main">
+      Hey
+    </main>
   )
 }
 

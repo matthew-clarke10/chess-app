@@ -20,6 +20,10 @@ export default {
           dark: "#BABABA",
         },
       },
+      height: {
+        nav: "6rem",
+        main: "calc(100vh - 6rem)",
+      },
     },
   },
   plugins: [],
