@@ -24,6 +24,9 @@ export default {
         nav: "6rem",
         main: "calc(100vh - 6rem)",
       },
+      flex: {
+        '2': '2 2 0%'
+      },
     },
   },
   plugins: [],

@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex gap-2 h-nav py-4 bg-dark-nav text-xl">
+      <nav className="flex gap-2 h-nav px-4 md:px-8 py-4 bg-dark-nav text-xl border-y-2 border-text-light">
         <div className="flex items-center gap-4 hover:cursor-pointer">
           <img className="block xs:hidden md:block" width={64} height={64} src="./favicon.png" alt="ChessPuzzler Logo" />
           <h1 className="hidden xs:block text-3xl md:text-5xl py-2 md:p-0">ChessPuzzler</h1>

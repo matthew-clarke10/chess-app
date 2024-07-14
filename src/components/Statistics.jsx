@@ -1,8 +1,8 @@
 const Statistics = () => {
   return (
-    <main className="flex justify-center items-center h-main">
-      Hey
-    </main>
+    <section className="flex flex-1 bg-red-200 w-full">
+      hey
+    </section>
   )
 }
 

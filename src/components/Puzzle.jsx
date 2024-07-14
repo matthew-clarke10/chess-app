@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
-import puzzles from '../data/puzzles';
-
-function getRandomPuzzle() {
-  const randomIndex = Math.floor(Math.random() * puzzles.length);
-  return puzzles[randomIndex];
-}
+import { getRandomPuzzle } from '../utils/chess';
 
 const Puzzle = () => {
   const randomPuzzle = getRandomPuzzle();
@@ -30,6 +25,7 @@ const Puzzle = () => {
     const result = chess.move(move);
 
     if (result) {
+      console.log(randomPuzzle.correctMoves[moveIndex]);
       if (result.san === randomPuzzle.correctMoves[moveIndex]) {
         setFen(chess.fen());
         console.log(`Correct move: ${result.san}`);

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import Statistics from './components/Statistics';
+import Home from './components/Home';
 import Puzzle from './components/Puzzle';
 
 const App = () => {
@@ -32,10 +32,10 @@ const App = () => {
 
   return (
     <>
-      <div className='h-screen px-4 md:px-8 bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark'>
+      <div className='h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark'>
         <Routes>
           <Route path="/" element={<Navbar />}>
-            <Route index element={<Statistics />} />
+            <Route index element={<Home />} />
             <Route path="puzzles" element={<Puzzle />} />
           </Route>
         </Routes>
