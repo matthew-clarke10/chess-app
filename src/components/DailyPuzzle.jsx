@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Chessboard } from 'react-chessboard';
-import { getRandomPuzzle, handleMove } from '../utils/chess';
+import { getRandomPuzzle, handleMove } from '../utils/chessUtils';
 import { capitalise } from '../utils/other';
 
 const DailyPuzzle = ({ difficulty }) => {

@@ -6,6 +6,19 @@ export const getRandomPuzzle = () => {
   return puzzles[randomIndex];
 }
 
+
+export const calculateBoardWidth = () => {
+  if (window.innerWidth <= 476) {
+    return window.innerWidth;
+  } else if (window.innerWidth <= 768) {
+    return 444;
+  } else if (window.innerWidth < 1250) {
+    return (window.innerWidth * 0.65) - 96;
+  } else {
+    return 715;
+  }
+};
+
 export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
