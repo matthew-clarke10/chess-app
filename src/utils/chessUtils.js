@@ -1,4 +1,3 @@
-// import { Chess } from 'chess.js';
 import puzzles from '../data/puzzles';
 
 export const getRandomPuzzle = () => {
@@ -19,16 +18,28 @@ export const calculateBoardWidth = () => {
   }
 };
 
+export const handleHintClick = (hint, showHint, setArrows, setSquareStyles, setShowHint) => {
+  if (showHint === 0) {
+    setSquareStyles({
+      [hint.from]: { backgroundColor: "rgb(0, 255, 0)" }
+    });
+    setShowHint(1);
+  } else if (showHint === 1) {
+    setArrows([[hint.from, hint.to, hint.color]]);
+    setShowHint(2);
+  }
+};
+
 export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
 
   if (result) {
-    if (result.san === randomPuzzle.correctMoves[moveIndex]) {
+    if (result.san === randomPuzzle.correctMoves[moveIndex].san) {
       setFen(chess.fen());
       console.log(`Correct move: ${result.san}`);
 
-      if (chess.isCheckmate()) {
+      if (moveIndex === randomPuzzle.responseMoves.length) {
         console.log('Checkmate!');
       } else {
         chess.move(randomPuzzle.responseMoves[moveIndex]);
