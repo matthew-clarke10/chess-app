@@ -18,19 +18,21 @@ export const calculateBoardWidth = () => {
   }
 };
 
-export const handleHintClick = (hint, showHint, setArrows, setSquareStyles, setShowHint) => {
-  if (showHint === 0) {
-    setSquareStyles({
-      [hint.from]: { backgroundColor: "rgb(0, 255, 0)" }
-    });
-    setShowHint(1);
-  } else if (showHint === 1) {
-    setArrows([[hint.from, hint.to, hint.color]]);
-    setShowHint(2);
+export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint) => {
+  if (!puzzleSolved) {
+    if (showHint === 0) {
+      setSquareStyles({
+        [hint.from]: { backgroundColor: "rgb(0, 255, 0)" }
+      });
+      setShowHint(1);
+    } else if (showHint === 1) {
+      setArrows([[hint.from, hint.to, hint.color]]);
+      setShowHint(2);
+    }
   }
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen, setPuzzleSolved) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
 
@@ -40,7 +42,7 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
       console.log(`Correct move: ${result.san}`);
 
       if (moveIndex === randomPuzzle.responseMoves.length) {
-        console.log('Checkmate!');
+        setPuzzleSolved(true);
       } else {
         chess.move(randomPuzzle.responseMoves[moveIndex]);
         setFen(chess.fen());

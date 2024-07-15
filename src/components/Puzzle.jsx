@@ -25,12 +25,15 @@ const Puzzle = () => {
     setArrows([]);
     setSquareStyles({});
     setShowHint(0);
-    setHint({
-      from: randomPuzzle.correctMoves[moveIndex].from,
-      to: randomPuzzle.correctMoves[moveIndex].to,
-      color: "rgb(0, 255, 0)",
-    });
-  }, [moveIndex, randomPuzzle.correctMoves]);
+
+    if (!puzzleSolved) {
+      setHint({
+        from: randomPuzzle.correctMoves[moveIndex].from,
+        to: randomPuzzle.correctMoves[moveIndex].to,
+        color: "rgb(0, 255, 0)",
+      });
+    }
+  }, [moveIndex, randomPuzzle.correctMoves, puzzleSolved]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,7 +58,7 @@ const Puzzle = () => {
               boardWidth={boardWidth}
               position={fen}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen, setPuzzleSolved)
               }
             />
           </div>
@@ -64,7 +67,7 @@ const Puzzle = () => {
         <div className="flex flex-col justify-evenly w-full h-full md:h-auto xs:w-[444px] md:w-full text-center mx-auto bg-white border shadow border-text-light rounded-lg">
           <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold">White to Play</h2>
           <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center">
-            <button onClick={() => handleHintClick(hint, showHint, setArrows, setSquareStyles, setShowHint)} className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 hover:bg-yellow-400 rounded border-2 border-text-light">Hint</button>
+            <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint)} className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 hover:bg-yellow-400 rounded border-2 border-text-light">Hint</button>
             <button className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 hover:bg-blue-500 rounded border-2 border-text-light">Solution</button>
           </div>
           <div className="w-4/5 mx-auto">
