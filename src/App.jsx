@@ -32,7 +32,7 @@ const App = () => {
 
   return (
     <>
-      <div className='h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark'>
+      <div className='h-screen w-full bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark'>
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />

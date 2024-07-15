@@ -9,7 +9,7 @@ export const getRandomPuzzle = () => {
 
 export const calculateBoardWidth = () => {
   if (window.innerWidth <= 476) {
-    return window.innerWidth;
+    return window.innerWidth - 32;
   } else if (window.innerWidth <= 768) {
     return 444;
   } else if (window.innerWidth < 1250) {

@@ -30,7 +30,7 @@ const Puzzle = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-0 xs:gap-4 sm:gap-8 px-0 sm:px-8 py-0 xs:py-4 sm:py-8">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-8 h-main md:h-auto px-4 md:px-8 py-4 md:py-8">
         <div className="flex justify-center items-center w-full md:w-auto">
           <div className="flex justify-center items-center">
             <Chessboard
@@ -43,15 +43,14 @@ const Puzzle = () => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full xs:w-[444px] md:w-full text-center mx-auto bg-red-200">
-          <div className="flex flex-col justify-center items-center h-full">
-            <h2 className="text-4xl">White to Play</h2>
-            <div>Hint</div>
-            <div>View Solution</div>
+        <div className="flex flex-col justify-evenly w-full h-full md:h-auto xs:w-[444px] md:w-full text-center mx-auto bg-white border shadow border-text-light rounded-lg">
+          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold">White to Play</h2>
+          <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center">
+            <div className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-2 border-text-light">Hint</div>
+            <div className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-2 border-text-light">Solution</div>
           </div>
-          <div className="flex flex-col justify-center items-center h-full">
-            <div>Correct!</div>
-            <button onClick={() => setRandomPuzzle(getRandomPuzzle())}>New Puzzle</button>
+          <div className="w-4/5 mx-auto">
+            <button onClick={() => setRandomPuzzle(getRandomPuzzle())} className="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 w-full rounded border-2 border-text-light">New Puzzle</button>
           </div>
         </div>
       </div>
