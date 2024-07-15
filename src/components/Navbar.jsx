@@ -15,20 +15,20 @@ const Navbar = () => {
           <img className="block xs:hidden md:block" width={64} height={64} src="./favicon.png" alt="ChessPuzzler Logo" />
           <h1 className="hidden xs:block text-3xl md:text-5xl py-2 md:p-0">ChessPuzzler</h1>
         </div>
-        <div className="flex lg:hidden flex-grow gap-4 justify-end items-center text-center ml-auto mr-8">
-          <Link to="/puzzles" className="w-24 py-3 border-2 border-text-light hover:cursor-pointer hover:bg-white">Puzzles</Link>
+        <div className="flex lg:hidden flex-grow gap-4 justify-end items-center text-center ml-auto mr-2 md:mr-6">
+          <Link to="/puzzles" className="w-24 py-3 rounded border border-text-light hover:cursor-pointer bg-white hover:bg-gray-100">Puzzles</Link>
         </div>
-        <div className="hidden lg:flex flex-grow gap-4 justify-end items-center text-center mr-8">
-          <Link to="/puzzles" className="w-24 py-3 border-2 border-text-light hover:cursor-pointer hover:bg-white">Easy</Link>
-          <Link to="/puzzles" className="w-24 py-3 border-2 border-text-light hover:cursor-pointer hover:bg-white">Medium</Link>
-          <Link to="/puzzles" className="w-24 py-3 border-2 border-text-light hover:cursor-pointer hover:bg-white">Hard</Link>
+        <div className="hidden lg:flex flex-grow gap-8 justify-end items-center text-center mr-6">
+          <Link to="/puzzles" className="w-24 py-3 rounded border border-text-light hover:cursor-pointer bg-white hover:bg-gray-100">Easy</Link>
+          <Link to="/puzzles" className="w-24 py-3 rounded border border-text-light hover:cursor-pointer bg-white hover:bg-gray-100">Medium</Link>
+          <Link to="/puzzles" className="w-24 py-3 rounded border border-text-light hover:cursor-pointer bg-white hover:bg-gray-100">Hard</Link>
         </div>
         <div className="relative flex items-center" onMouseEnter={openDropdown} onMouseLeave={closeDropdown} onClick={toggleDropdown}>
-          <div className={`flex justify-center items-center w-24 py-3 border-2 border-text-light hover:cursor-pointer ${isDropdownOpen ? "bg-white border-b-0" : ""}`}>Theme</div>
+          <div className={`flex justify-center items-center bg-white w-24 py-3 rounded border border-text-light hover:cursor-pointer ${isDropdownOpen ? "bg-gray-100 rounded-b-none border-b-0" : ""}`}>Theme</div>
           {isDropdownOpen && (
-            <div className="absolute right-0 top-[58px] bg-white border-2 border-text-light w-48 z-10">
-              <div className="py-2 px-4 hover:bg-gray-100 cursor-pointer">Background</div>
-              <div className="py-2 px-4 hover:bg-gray-100 cursor-pointer">Board Colours</div>
+            <div className="absolute right-0 top-[56px] bg-white rounded rounded-tr-none border border-text-light w-48 z-10">
+              <div className="py-2 px-4 rounded-t hover:bg-gray-100 cursor-pointer">Background</div>
+              <div className="py-2 px-4 rounded-b hover:bg-gray-100 cursor-pointer">Board Colours</div>
             </div>
           )}
         </div>

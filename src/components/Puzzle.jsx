@@ -30,8 +30,8 @@ const Puzzle = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-8 px-0 xs:px-8 py-0 xs:py-4 sm:py-8">
-        <div className="flex justify-center items-center w-full md:w-auto mb-4 md:mb-0">
+      <div className="flex flex-col md:flex-row gap-0 xs:gap-4 sm:gap-8 px-0 sm:px-8 py-0 xs:py-4 sm:py-8">
+        <div className="flex justify-center items-center w-full md:w-auto">
           <div className="flex justify-center items-center">
             <Chessboard
               boardWidth={boardWidth}
@@ -43,18 +43,18 @@ const Puzzle = () => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full text-center bg-red-200">
+        <div className="flex flex-col w-full xs:w-[444px] md:w-full text-center mx-auto bg-red-200">
           <div className="flex flex-col justify-center items-center h-full">
             <h2 className="text-4xl">White to Play</h2>
             <div>Hint</div>
             <div>View Solution</div>
           </div>
-          <div className="flex justify-center items-center h-full">
+          <div className="flex flex-col justify-center items-center h-full">
             <div>Correct!</div>
+            <button onClick={() => setRandomPuzzle(getRandomPuzzle())}>New Puzzle</button>
           </div>
         </div>
       </div>
-      <button onClick={() => setRandomPuzzle(getRandomPuzzle())}>New Puzzle</button>
     </>
   );
 };
