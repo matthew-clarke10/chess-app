@@ -13,9 +13,9 @@ export const calculateBoardWidth = () => {
   } else if (window.innerWidth <= 768) {
     return 444;
   } else if (window.innerWidth < 1250) {
-    return (window.innerWidth * 0.65) - 96;
+    return (window.innerWidth * 0.65) - 130;
   } else {
-    return 715;
+    return 680;
   }
 };
 

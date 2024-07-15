@@ -30,7 +30,7 @@ const Puzzle = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-8 px-0 xs:px-8 py-0 xs:py-4">
+      <div className="flex flex-col md:flex-row gap-8 px-0 xs:px-8 py-0 xs:py-4 sm:py-8">
         <div className="flex justify-center items-center w-full md:w-auto mb-4 md:mb-0">
           <div className="flex justify-center items-center">
             <Chessboard
