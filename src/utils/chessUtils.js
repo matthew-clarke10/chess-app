@@ -73,6 +73,10 @@ export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSqua
   }
 };
 
+export const handleSolutionClick = () => {
+
+};
+
 export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen, setPuzzleSolved) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
