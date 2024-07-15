@@ -1,10 +1,51 @@
+import { Chess } from 'chess.js';
 import puzzles from '../data/puzzles';
+
+export const getPuzzlesSolved = () => {
+  const puzzlesSolvedObject = localStorage.getItem("puzzlesSolved");
+  if (puzzlesSolvedObject) {
+    const puzzlesSolved = JSON.parse(puzzlesSolvedObject);
+    return puzzlesSolved;
+  } else {
+    const puzzlesSolved = createPuzzlesSolved();
+    return puzzlesSolved;
+  }
+};
+
+export const createPuzzlesSolved = () => {
+  localStorage.setItem("puzzlesSolved", 0);
+  return 0;
+};
+
+export const incrementPuzzlesSolved = () => {
+  let puzzleSolved = getPuzzlesSolved();
+  puzzleSolved++;
+  localStorage.setItem("puzzlesSolved", JSON.stringify(puzzleSolved));
+};
 
 export const getRandomPuzzle = () => {
   const randomIndex = Math.floor(Math.random() * puzzles.length);
   return puzzles[randomIndex];
-}
+};
 
+export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved) => {
+  let newPuzzle = randomPuzzle;
+
+  do {
+    newPuzzle = getRandomPuzzle();
+  } while (randomPuzzle.fen === newPuzzle.fen);
+
+  setRandomPuzzle(newPuzzle);
+  setMoveIndex(0);
+  setFen(newPuzzle.fen);
+  setChess(new Chess(newPuzzle.fen));
+  setBoardWidth(calculateBoardWidth());
+  setArrows([]);
+  setSquareStyles({});
+  setHint({});
+  setShowHint(0);
+  setPuzzleSolved(false);
+};
 
 export const calculateBoardWidth = () => {
   if (window.innerWidth <= 476) {
@@ -43,6 +84,7 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
 
       if (moveIndex === randomPuzzle.responseMoves.length) {
         setPuzzleSolved(true);
+        incrementPuzzlesSolved();
       } else {
         chess.move(randomPuzzle.responseMoves[moveIndex]);
         setFen(chess.fen());
