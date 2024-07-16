@@ -1,9 +1,11 @@
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { getRandomPuzzle, newPuzzle, handleHintClick, handleSolutionClick, handleMove, calculateBoardWidth } from '../utils/chessUtils';
 
 const Puzzle = () => {
+  const { difficulty } = useParams();
   const [randomPuzzle, setRandomPuzzle] = useState(getRandomPuzzle);
   const [moveIndex, setMoveIndex] = useState(0);
   const [fen, setFen] = useState(randomPuzzle.fen);
@@ -58,7 +60,7 @@ const Puzzle = () => {
               boardWidth={boardWidth}
               position={fen}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen, setPuzzleSolved)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, setMoveIndex, setFen, setPuzzleSolved)
               }
             />
           </div>

@@ -36,7 +36,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home />} />
-            <Route path="puzzles" element={<Puzzle />} />
+            <Route path="puzzles/:difficulty" element={<Puzzle />} />
           </Route>
         </Routes>
       </div>

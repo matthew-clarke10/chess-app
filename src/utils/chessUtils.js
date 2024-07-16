@@ -1,26 +1,29 @@
 import { Chess } from 'chess.js';
 import puzzles from '../data/puzzles';
 
-export const getPuzzlesSolved = () => {
-  const puzzlesSolvedObject = localStorage.getItem("puzzlesSolved");
+export const getPuzzlesSolved = (difficulty) => {
+  const puzzlesSolvedObject = localStorage.getItem(difficulty + "PuzzlesSolved");
   if (puzzlesSolvedObject) {
     const puzzlesSolved = JSON.parse(puzzlesSolvedObject);
     return puzzlesSolved;
   } else {
-    const puzzlesSolved = createPuzzlesSolved();
+    const puzzlesSolved = createPuzzlesSolved(difficulty);
     return puzzlesSolved;
   }
 };
 
-export const createPuzzlesSolved = () => {
-  localStorage.setItem("puzzlesSolved", 0);
+export const createPuzzlesSolved = (difficulty) => {
+  localStorage.setItem(difficulty + "PuzzlesSolved", 0);
   return 0;
 };
 
-export const incrementPuzzlesSolved = () => {
-  let puzzleSolved = getPuzzlesSolved();
-  puzzleSolved++;
-  localStorage.setItem("puzzlesSolved", JSON.stringify(puzzleSolved));
+export const incrementPuzzlesSolved = (difficulty) => {
+  let totalPuzzleSolved = getPuzzlesSolved("total");
+  let difficultyPuzzlesSolved = getPuzzlesSolved(difficulty);
+  totalPuzzleSolved++;
+  difficultyPuzzlesSolved++;
+  localStorage.setItem("totalPuzzlesSolved", JSON.stringify(totalPuzzleSolved));
+  localStorage.setItem(difficulty + "PuzzlesSolved", JSON.stringify(difficultyPuzzlesSolved));
 };
 
 export const getRandomPuzzle = () => {
@@ -77,7 +80,7 @@ export const handleSolutionClick = () => {
 
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, setMoveIndex, setFen, setPuzzleSolved) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, setMoveIndex, setFen, setPuzzleSolved) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
 
@@ -88,7 +91,7 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
 
       if (moveIndex === randomPuzzle.responseMoves.length) {
         setPuzzleSolved(true);
-        incrementPuzzlesSolved();
+        incrementPuzzlesSolved(difficulty);
       } else {
         chess.move(randomPuzzle.responseMoves[moveIndex]);
         setFen(chess.fen());
