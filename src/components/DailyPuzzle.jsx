@@ -22,24 +22,30 @@ const DailyPuzzle = ({ difficulty }) => {
 
   return (
     <>
-      <h2 className="text-4xl text-center mb-2">{capitalise(difficulty)}</h2>
-      <Chessboard
-        boardWidth={boardWidth}
-        position={getRandomPuzzle().fen}
-        onPieceDrop={(sourceSquare, targetSquare) => {
-          handleMove(sourceSquare, targetSquare);
-        }}
-      />
-      <div className="flex text-2xl text-center">
-        <div className="flex-1 bg-yellow-300 hover:bg-yellow-400">
-          <button className="w-full">Hint</button>
+      <div className="h-full flex flex-col justify-between border-text-light">
+        <div className="flex flex-col border-y-2 border-text-light">
+          <Chessboard
+            boardWidth={boardWidth}
+            position={getRandomPuzzle().fen}
+            onPieceDrop={(sourceSquare, targetSquare) => {
+              handleMove(sourceSquare, targetSquare);
+            }}
+          />
         </div>
-        <div className="flex-1 bg-blue-400 hover:bg-blue-500">
-          <button className="w-full">Solution</button>
+        <div>
+          <div className="flex text-2xl text-center">
+            <button className="w-full bg-green-400 hover:bg-green-500 border-y-2 border-text-light">Correct</button>
+          </div>
+          <div className="flex text-2xl text-center">
+            <div className="flex-1 bg-yellow-300 hover:bg-yellow-400 border-r-2 border-text-light">
+              <button className="w-full">Hint</button>
+            </div>
+            <div className="flex-1 bg-blue-400 hover:bg-blue-500">
+              <button className="w-full">Solution</button>
+            </div>
+          </div>
+
         </div>
-      </div>
-      <div className="flex text-2xl text-center">
-        <button className="w-full bg-green-400 hover:bg-green-500">Correct</button>
       </div>
     </>
   )
