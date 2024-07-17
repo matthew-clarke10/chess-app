@@ -3,15 +3,15 @@ import DailyPuzzle from "./DailyPuzzle";
 const DailyPuzzles = () => {
   return (
     <>
-      <h1 className="text-4xl text-center my-4 font-bold">Daily Puzzles</h1>
-      <section className="hidden lg:flex flex-2 justify-evenly bg-green-200 w-full">
-        <div className="w-1/4 bg-orange-200">
+      <h1 className="text-4xl text-center mt-2 font-bold">Daily Puzzles</h1>
+      <section className="hidden lg:flex flex-2 justify-evenly w-full my-2">
+        <div>
           <DailyPuzzle difficulty="easy" />
         </div>
-        <div className="w-1/4 bg-orange-200">
+        <div>
           <DailyPuzzle difficulty="medium" />
         </div>
-        <div className="w-1/4 bg-orange-200">
+        <div>
           <DailyPuzzle difficulty="hard" />
         </div>
       </section>
