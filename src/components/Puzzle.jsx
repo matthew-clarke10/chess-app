@@ -2,7 +2,8 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
-import { getRandomPuzzle, newPuzzle, handleHintClick, handleSolutionClick, handleMove, calculateBoardWidth } from '../utils/chessUtils';
+import { getRandomPuzzle, newPuzzle, handleHintClick, handleSolutionClick, handleMove, goBack, goForward, calculateBoardWidth } from '../utils/chessUtils';
+import { FaStepBackward, FaStepForward } from "react-icons/fa";
 
 const Puzzle = () => {
   const { difficulty } = useParams();
@@ -16,11 +17,14 @@ const Puzzle = () => {
   const [hint, setHint] = useState({});
   const [showHint, setShowHint] = useState(0);
   const [puzzleSolved, setPuzzleSolved] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [currentMove, setCurrentMove] = useState(0);
 
   useEffect(() => {
     setMoveIndex(0);
     setFen(randomPuzzle.fen);
     setChess(new Chess(randomPuzzle.fen));
+    setPuzzleSolved(false);
   }, [randomPuzzle]);
 
   useEffect(() => {
@@ -60,7 +64,7 @@ const Puzzle = () => {
               boardWidth={boardWidth}
               position={fen}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, setMoveIndex, setFen, setPuzzleSolved)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, setMoveIndex, setFen, setPuzzleSolved, setCurrentMove, setHistory)
               }
             />
           </div>
@@ -75,8 +79,14 @@ const Puzzle = () => {
             </div>
           )}
           {puzzleSolved && (
-            <div className="w-4/5 mx-auto">
-              <button onClick={() => newPuzzle(randomPuzzle, setRandomPuzzle, setMoveIndex, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved)} className="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 hover:bg-green-600 w-full rounded border-2 border-text-light">Next Puzzle</button>
+            <div>
+              <div className="flex w-4/5 mx-auto">
+                <button onClick={() => { goBack(currentMove, chess, setFen, setCurrentMove) }} disabled={currentMove === 0} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== 0 ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepBackward size={40} /></button>
+                <button onClick={() => { goForward(currentMove, history, chess, setFen, setCurrentMove) }} disabled={currentMove === history.length} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== history.length ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepForward size={40} /></button>
+              </div>
+              <div className="w-4/5 mx-auto">
+                <button onClick={() => newPuzzle(randomPuzzle, setRandomPuzzle, setMoveIndex, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved)} className="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 hover:bg-green-600 w-full rounded border-2 border-text-light">Next Puzzle</button>
+              </div>
             </div>
           )}
         </div>

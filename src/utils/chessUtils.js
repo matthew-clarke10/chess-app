@@ -80,22 +80,27 @@ export const handleSolutionClick = () => {
 
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, setMoveIndex, setFen, setPuzzleSolved) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, setMoveIndex, setFen, setPuzzleSolved, setCurrentMove, setHistory) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
 
   if (result) {
     if (result.san === randomPuzzle.correctMoves[moveIndex].san) {
+      setCurrentMove(currentMove + 1);
       setFen(chess.fen());
       console.log(`Correct move: ${result.san}`);
 
       if (moveIndex === randomPuzzle.responseMoves.length) {
+        setHistory(chess.history({ verbose: true }));
+        setCurrentMove(currentMove + 1);
         setPuzzleSolved(true);
         incrementPuzzlesSolved(difficulty);
       } else {
         chess.move(randomPuzzle.responseMoves[moveIndex]);
+        setHistory(chess.history({ verbose: true }));
         setFen(chess.fen());
         setMoveIndex(moveIndex + 1);
+        setCurrentMove(currentMove + 2);
       }
     } else {
       chess.undo();
@@ -103,5 +108,21 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
     }
   } else {
     console.log('Invalid move:', move);
+  }
+};
+
+export const goBack = (currentMove, chess, setFen, setCurrentMove) => {
+  if (currentMove > 0) {
+    chess.undo();
+    setFen(chess.fen());
+    setCurrentMove(currentMove - 1);
+  }
+};
+
+export const goForward = (currentMove, history, chess, setFen, setCurrentMove) => {
+  if (currentMove < history.length) {
+    chess.move(history[currentMove]);
+    setFen(chess.fen());
+    setCurrentMove(currentMove + 1);
   }
 };
