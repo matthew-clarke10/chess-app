@@ -31,7 +31,7 @@ export const getRandomPuzzle = () => {
   return puzzles[randomIndex];
 };
 
-export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved, setSolutionRevealing) => {
+export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
   let newPuzzle = randomPuzzle;
 
   do {
@@ -48,8 +48,9 @@ export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurren
   setSquareStyles({});
   setHint({});
   setShowHint(0);
-  setPuzzleSolved(false);
+  setSolutionRevealed(false);
   setSolutionRevealing(false);
+  setPuzzleSolved(false);
 };
 
 export const calculateBoardWidth = () => {
@@ -78,14 +79,16 @@ export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSqua
   }
 };
 
-export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove, setFen, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealing) => {
+export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing) => {
+  setSolutionRevealed(true);
   setSolutionRevealing(true);
+  setPlayerMove("incorrect");
   let localMoveIndex = moveIndex;
   let localCurrentMove = currentMove;
-  let localSolutionRevealing = true;
+  let localSolutionRevealed = true;
 
   const interval = setInterval(() => {
-    if (localSolutionRevealing) {
+    if (localSolutionRevealed) {
       if (localMoveIndex < randomPuzzle.correctMoves.length) {
         if (localCurrentMove % 2 === 0) {
           chess.move(randomPuzzle.correctMoves[localMoveIndex].san);
@@ -101,7 +104,6 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
         }
         localCurrentMove++;
       } else {
-        setPuzzleSolved(true);
         setSolutionRevealing(false);
         clearInterval(interval);
       }
@@ -109,12 +111,13 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
   }, 1000);
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, setMoveIndex, setFen, setPuzzleSolved, setCurrentMove, setHistory) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory) => {
   const move = { from: sourceSquare, to: targetSquare };
   const result = chess.move(move);
 
   if (result) {
     if (result.san === randomPuzzle.correctMoves[moveIndex].san) {
+      setPlayerMove("correct");
       setCurrentMove(currentMove + 1);
       setFen(chess.fen());
       console.log(`Correct move: ${result.san}`);
@@ -125,14 +128,19 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
         setPuzzleSolved(true);
         incrementPuzzlesSolved(difficulty);
       } else {
-        chess.move(randomPuzzle.responseMoves[moveIndex]);
-        setHistory(chess.history({ verbose: true }));
-        setFen(chess.fen());
-        setMoveIndex(moveIndex + 1);
-        setCurrentMove(currentMove + 2);
+        setTimeout(() => {
+          chess.move(randomPuzzle.responseMoves[moveIndex]);
+          setHistory(chess.history({ verbose: true }));
+          setFen(chess.fen());
+          setMoveIndex(moveIndex + 1);
+          setCurrentMove(currentMove + 2);
+          setPlayerMove(chess.turn());
+        }, 1000);
       }
     } else {
       chess.undo();
+      setPlayerMove("incorrect");
+      setPuzzleSolved(true);
       console.log(`Incorrect move: ${result.san}`);
     }
   } else {
