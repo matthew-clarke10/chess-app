@@ -19,6 +19,7 @@ const Puzzle = () => {
   const [puzzleSolved, setPuzzleSolved] = useState(false);
   const [history, setHistory] = useState([]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [solutionRevealing, setSolutionRevealing] = useState(false);
 
   useEffect(() => {
     setMoveIndex(0);
@@ -32,14 +33,14 @@ const Puzzle = () => {
     setSquareStyles({});
     setShowHint(0);
 
-    if (!puzzleSolved) {
+    if (!puzzleSolved && !solutionRevealing) {
       setHint({
         from: randomPuzzle.correctMoves[moveIndex].from,
         to: randomPuzzle.correctMoves[moveIndex].to,
         color: "rgb(0, 255, 0)",
       });
     }
-  }, [moveIndex, randomPuzzle.correctMoves, puzzleSolved]);
+  }, [moveIndex, randomPuzzle.correctMoves, puzzleSolved, solutionRevealing]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -74,18 +75,18 @@ const Puzzle = () => {
           <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold">White to Play</h2>
           {!puzzleSolved && (
             <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center">
-              <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint)} className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 hover:bg-yellow-400 rounded border-2 border-text-light">Hint</button>
-              <button onClick={() => handleSolutionClick()} className="w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 hover:bg-blue-500 rounded border-2 border-text-light">Solution</button>
+              <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint)} disabled={solutionRevealing || showHint === 2} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-2 border-text-light  ${!solutionRevealing && showHint !== 2 ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
+              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealing)} disabled={solutionRevealing} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-2 border-text-light ${!solutionRevealing ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
             </div>
           )}
           {puzzleSolved && (
             <div>
               <div className="flex w-4/5 mx-auto">
-                <button onClick={() => { goBack(currentMove, chess, setFen, setCurrentMove) }} disabled={currentMove === 0} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== 0 ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepBackward size={40} /></button>
-                <button onClick={() => { goForward(currentMove, history, chess, setFen, setCurrentMove) }} disabled={currentMove === history.length} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== history.length ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepForward size={40} /></button>
+                <button onClick={() => { goBack(currentMove, chess, setFen, setCurrentMove) }} disabled={currentMove === 0 || solutionRevealing} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== 0 && !solutionRevealing ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepBackward size={40} /></button>
+                <button onClick={() => { goForward(currentMove, history, chess, setFen, setCurrentMove) }} disabled={currentMove === history.length || solutionRevealing} className={`flex flex-1 w-full justify-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== history.length && !solutionRevealing ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepForward size={40} /></button>
               </div>
               <div className="w-4/5 mx-auto">
-                <button onClick={() => newPuzzle(randomPuzzle, setRandomPuzzle, setMoveIndex, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved)} className="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 hover:bg-green-600 w-full rounded border-2 border-text-light">Next Puzzle</button>
+                <button onClick={() => newPuzzle(randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setPuzzleSolved, setSolutionRevealing)} className="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 hover:bg-green-600 w-full rounded border-2 border-text-light">Next Puzzle</button>
               </div>
             </div>
           )}
