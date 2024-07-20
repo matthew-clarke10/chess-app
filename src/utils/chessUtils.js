@@ -174,7 +174,7 @@ export const goForward = (currentMove, history, chess, setFen, setCurrentMove) =
   }
 };
 
-export const getPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, hintGiven) => {
+export const getPuzzleStatusClass = (playerMove, puzzleSolved, hintGiven) => {
   if (playerMove === "incorrect") {
     return "text-red-400";
   } else if (puzzleSolved && hintGiven) {
@@ -205,3 +205,20 @@ export const getPuzzleStatusText = (playerMove, puzzleSolved, playerTurn, hintGi
 
   return "Loading Puzzle";
 };
+
+export const getDailyPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, hintGiven) => {
+  if (playerMove === "incorrect") {
+    return "bg-red-400";
+  } else if (puzzleSolved && hintGiven) {
+    return "bg-hint";
+  } else if (puzzleSolved) {
+    return "bg-green-400";
+  } else if (playerMove === "correct") {
+    return "bg-green-400";
+  } else if (playerTurn === "w") {
+    return "bg-white";
+  } else if (playerTurn === "b") {
+    return "bg-black";
+  }
+  return "";
+}
