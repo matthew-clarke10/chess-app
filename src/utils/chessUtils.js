@@ -1,5 +1,8 @@
 import { Chess } from 'chess.js';
-import puzzles from '../data/puzzles';
+import easyPuzzles from '../data/easyPuzzles';
+import mediumPuzzles from '../data/mediumPuzzles';
+import hardPuzzles from '../data/hardPuzzles';
+import { getDayOfYear } from './other';
 
 export const getPuzzlesSolved = (difficulty) => {
   const puzzlesSolvedObject = localStorage.getItem(difficulty + "PuzzlesSolved");
@@ -26,9 +29,27 @@ export const incrementPuzzlesSolved = (difficulty) => {
   localStorage.setItem(difficulty + "PuzzlesSolved", JSON.stringify(difficultyPuzzlesSolved));
 };
 
-export const getRandomPuzzle = () => {
-  const randomIndex = Math.floor(Math.random() * puzzles.length);
-  return puzzles[randomIndex];
+export const getRandomPuzzle = (difficulty) => {
+  if (difficulty === "easy") {
+    const randomIndex = Math.floor(Math.random() * easyPuzzles.length);
+    return easyPuzzles[randomIndex];
+  } else if (difficulty === "medium") {
+    const randomIndex = Math.floor(Math.random() * mediumPuzzles.length);
+    return mediumPuzzles[randomIndex];
+  } else {
+    const randomIndex = Math.floor(Math.random() * hardPuzzles.length);
+    return hardPuzzles[randomIndex];
+  }
+};
+
+export const getDailyPuzzle = (difficulty) => {
+  if (difficulty === "easy") {
+    return easyPuzzles[getDayOfYear()];
+  } else if (difficulty === "medium") {
+    return mediumPuzzles[getDayOfYear()];
+  } else {
+    return hardPuzzles[getDayOfYear()];
+  }
 };
 
 export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
@@ -222,7 +243,7 @@ export const getDailyPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, 
   } else if (playerTurn === "w") {
     return "bg-white";
   } else if (playerTurn === "b") {
-    return "bg-black";
+    return "bg-black text-white";
   }
   return "";
 }

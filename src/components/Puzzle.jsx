@@ -8,7 +8,7 @@ import { FaStepBackward, FaStepForward } from "react-icons/fa";
 
 const Puzzle = ({ updatePuzzlesSolved }) => {
   const { difficulty } = useParams();
-  const [randomPuzzle, setRandomPuzzle] = useState(getRandomPuzzle);
+  const [randomPuzzle, setRandomPuzzle] = useState(getRandomPuzzle(difficulty));
   const [moveIndex, setMoveIndex] = useState(0);
   const [fen, setFen] = useState(randomPuzzle.fen);
   const [chess, setChess] = useState(new Chess(randomPuzzle.fen));
@@ -72,6 +72,7 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
               customSquareStyles={squareStyles}
               boardWidth={boardWidth}
               position={fen}
+              boardOrientation={playerTurn === "w" ? "white" : "black"}
               arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
               onPieceDrop={(sourceSquare, targetSquare) =>
                 handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
