@@ -13,8 +13,15 @@ const DailyPuzzle = ({ difficulty }) => {
   const [arrows, setArrows] = useState([]);
   const [squareStyles, setSquareStyles] = useState({});
   const [hint, setHint] = useState({});
+  const [hintGiven, setHintGiven] = useState(false);
   const [showHint, setShowHint] = useState(0);
   const [puzzleSolved, setPuzzleSolved] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const [solutionRevealing, setSolutionRevealing] = useState(false);
+  const [solutionRevealed, setSolutionRevealed] = useState(false);
+  const [playerTurn, setPlayerTurn] = useState("");
+  const [playerMove, setPlayerMove] = useState("none");
 
   useEffect(() => {
     setArrows([]);
@@ -25,7 +32,6 @@ const DailyPuzzle = ({ difficulty }) => {
       setHint({
         from: randomPuzzle.correctMoves[moveIndex].from,
         to: randomPuzzle.correctMoves[moveIndex].to,
-        color: "rgb(0, 255, 0)",
       });
     }
   }, [moveIndex, randomPuzzle.correctMoves, puzzleSolved]);
@@ -44,7 +50,7 @@ const DailyPuzzle = ({ difficulty }) => {
 
   return (
     <>
-      <div className="h-full flex flex-col justify-between border-text-light">
+      <div className="h-full flex flex-col justify-between">
         <div className="flex flex-col border-y-2 border-text-light">
           <Chessboard
             customArrows={arrows}
@@ -52,20 +58,20 @@ const DailyPuzzle = ({ difficulty }) => {
             boardWidth={boardWidth}
             position={fen}
             onPieceDrop={(sourceSquare, targetSquare) =>
-              handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, setMoveIndex, setFen, setPuzzleSolved)
+              handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
             }
           />
         </div>
         <div>
           <div className="flex text-2xl text-center">
-            <button className="w-full bg-green-400 hover:bg-green-500 border-y-2 border-text-light">Correct</button>
+            <button className="w-full bg-green-400 hover:bg-green-500 border-b-2 border-text-light">Correct</button>
           </div>
           <div className="flex text-2xl text-center">
             <div className="flex-1 bg-yellow-300 hover:bg-yellow-400 border-r-2 border-text-light">
-              <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint)} className="w-full">Hint</button>
+              <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} className="w-full">Hint</button>
             </div>
             <div className="flex-1 bg-blue-400 hover:bg-blue-500">
-              <button onClick={() => handleSolutionClick()} className="w-full">Solution</button>
+              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} className="w-full">Solution</button>
             </div>
           </div>
 

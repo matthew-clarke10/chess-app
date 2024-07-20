@@ -19,6 +19,7 @@ export default {
           light: "#4D4D4D",
           dark: "#BABABA",
         },
+        hint: "#FFAA00",
       },
       height: {
         nav: "6rem",

@@ -31,7 +31,7 @@ export const getRandomPuzzle = () => {
   return puzzles[randomIndex];
 };
 
-export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
+export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
   let newPuzzle = randomPuzzle;
 
   do {
@@ -48,6 +48,7 @@ export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurren
   setSquareStyles({});
   setHint({});
   setShowHint(0);
+  setHintGiven(false);
   setSolutionRevealed(false);
   setSolutionRevealing(false);
   setPuzzleSolved(false);
@@ -65,11 +66,12 @@ export const calculateBoardWidth = () => {
   }
 };
 
-export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint) => {
+export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven) => {
+  setHintGiven(true);
   if (!puzzleSolved) {
     if (showHint === 0) {
       setSquareStyles({
-        [hint.from]: { backgroundColor: "rgb(0, 255, 0)" }
+        [hint.from]: { backgroundColor: "rgb(255,170,0)" }
       });
       setShowHint(1);
     } else if (showHint === 1) {
@@ -111,11 +113,18 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
   }, 1000);
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing) => {
   const move = { from: sourceSquare, to: targetSquare };
-  const result = chess.move(move);
+  const legalMoves = chess.moves({ verbose: true });
+  const isLegalMove = legalMoves.some(m => m.from === move.from && m.to === move.to);
 
-  if (result) {
+  if (!isLegalMove) {
+    console.log(`Invalid move: from ${sourceSquare} to ${targetSquare}`);
+    return;
+  }
+
+  try {
+    const result = chess.move(move);
     if (result.san === randomPuzzle.correctMoves[moveIndex].san) {
       setPlayerMove("correct");
       setCurrentMove(currentMove + 1);
@@ -126,7 +135,9 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
         setHistory(chess.history({ verbose: true }));
         setCurrentMove(currentMove + 1);
         setPuzzleSolved(true);
-        incrementPuzzlesSolved(difficulty);
+        if (!hintGiven) {
+          incrementPuzzlesSolved(difficulty);
+        }
       } else {
         setTimeout(() => {
           chess.move(randomPuzzle.responseMoves[moveIndex]);
@@ -139,12 +150,11 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
       }
     } else {
       chess.undo();
-      setPlayerMove("incorrect");
-      setPuzzleSolved(true);
+      handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing);
       console.log(`Incorrect move: ${result.san}`);
     }
-  } else {
-    console.log('Invalid move:', move);
+  } catch (e) {
+    console.log(`Caught error: ${e.message}`);
   }
 };
 
@@ -162,4 +172,36 @@ export const goForward = (currentMove, history, chess, setFen, setCurrentMove) =
     setFen(chess.fen());
     setCurrentMove(currentMove + 1);
   }
+};
+
+export const getPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, hintGiven) => {
+  if (playerMove === "incorrect") {
+    return "text-red-400";
+  } else if (puzzleSolved && hintGiven) {
+    return "text-hint";
+  } else if (puzzleSolved) {
+    return "text-green-400";
+  } else if (playerMove === "correct") {
+    return "text-green-400";
+  }
+
+  return "";
+}
+
+export const getPuzzleStatusText = (playerMove, puzzleSolved, playerTurn, hintGiven) => {
+  if (playerMove === "incorrect") {
+    return "Incorrect";
+  } else if (puzzleSolved && hintGiven) {
+    return "Solved with Hint";
+  } else if (puzzleSolved) {
+    return "Solved";
+  } else if (playerMove === "correct") {
+    return "Correct";
+  } else if (playerTurn === "w") {
+    return "White to Play";
+  } else if (playerTurn === "b") {
+    return "Black to Play";
+  }
+
+  return "Loading Puzzle";
 };
