@@ -63,7 +63,7 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
             position={fen}
             arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
             onPieceDrop={(sourceSquare, targetSquare) =>
-              handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
+              handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
             }
           />
         </div>

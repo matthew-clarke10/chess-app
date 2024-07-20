@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
@@ -5,7 +6,7 @@ import { Chess } from 'chess.js';
 import { getRandomPuzzle, newPuzzle, handleHintClick, handleSolutionClick, handleMove, goBack, goForward, calculateBoardWidth, getPuzzleStatusClass, getPuzzleStatusText } from '../utils/chessUtils';
 import { FaStepBackward, FaStepForward } from "react-icons/fa";
 
-const Puzzle = () => {
+const Puzzle = ({ updatePuzzlesSolved }) => {
   const { difficulty } = useParams();
   const [randomPuzzle, setRandomPuzzle] = useState(getRandomPuzzle);
   const [moveIndex, setMoveIndex] = useState(0);
@@ -73,7 +74,7 @@ const Puzzle = () => {
               position={fen}
               arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
               }
             />
           </div>
@@ -102,6 +103,10 @@ const Puzzle = () => {
       </div>
     </>
   );
+};
+
+Puzzle.propTypes = {
+  updatePuzzlesSolved: PropTypes.func.isRequired,
 };
 
 export default Puzzle;

@@ -113,7 +113,7 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
   }, 1000);
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing) => {
   const move = { from: sourceSquare, to: targetSquare };
   const legalMoves = chess.moves({ verbose: true });
   const isLegalMove = legalMoves.some(m => m.from === move.from && m.to === move.to);
@@ -137,6 +137,10 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
         setPuzzleSolved(true);
         if (!hintGiven) {
           incrementPuzzlesSolved(difficulty);
+          updatePuzzlesSolved({
+            ["total"]: getPuzzlesSolved("total"),
+            [difficulty]: getPuzzlesSolved(difficulty),
+          });
         }
       } else {
         setTimeout(() => {

@@ -50,7 +50,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navbar />}>
             <Route index element={<Home puzzlesSolved={puzzlesSolved} updatePuzzlesSolved={updatePuzzlesSolved} />} />
-            <Route path="puzzles/:difficulty" element={<Puzzle />} />
+            <Route path="puzzles/:difficulty" element={<Puzzle updatePuzzlesSolved={updatePuzzlesSolved} />} />
           </Route>
         </Routes>
       </div>
