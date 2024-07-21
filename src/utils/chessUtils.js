@@ -52,11 +52,11 @@ export const getDailyPuzzle = (difficulty) => {
   }
 };
 
-export const newPuzzle = (randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
+export const newPuzzle = (difficulty, randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved) => {
   let newPuzzle = randomPuzzle;
 
   do {
-    newPuzzle = getRandomPuzzle();
+    newPuzzle = getRandomPuzzle(difficulty);
   } while (randomPuzzle.fen === newPuzzle.fen);
 
   setRandomPuzzle(newPuzzle);
@@ -87,16 +87,20 @@ export const calculateBoardWidth = () => {
   }
 };
 
-export const handleHintClick = (hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven) => {
+export const handleHintClick = (randomPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven) => {
   setHintGiven(true);
+  setHint({
+    from: randomPuzzle.correctMoves[moveIndex].from,
+    to: randomPuzzle.correctMoves[moveIndex].to,
+  });
   if (!puzzleSolved) {
     if (showHint === 0) {
       setSquareStyles({
-        [hint.from]: { backgroundColor: "rgb(255,170,0)" }
+        [randomPuzzle.correctMoves[moveIndex].from]: { backgroundColor: "rgb(255,170,0)" }
       });
       setShowHint(1);
     } else if (showHint === 1) {
-      setArrows([[hint.from, hint.to, hint.color]]);
+      setArrows([[randomPuzzle.correctMoves[moveIndex].from, randomPuzzle.correctMoves[moveIndex].to]]);
       setShowHint(2);
     }
   }
@@ -134,7 +138,7 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
   }, 1000);
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, isDailyPuzzle) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setShowHint, setArrows, setSquareStyles, setMoveIndex, setFen, setPlayerMove, setPlayerTurn, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, isDailyPuzzle) => {
   const move = { from: sourceSquare, to: targetSquare };
   const legalMoves = chess.moves({ verbose: true });
   const isLegalMove = legalMoves.some(m => m.from === move.from && m.to === move.to);
@@ -146,6 +150,8 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
 
   try {
     const result = chess.move(move);
+    setArrows([]);
+    setSquareStyles({});
     if (result.san === randomPuzzle.correctMoves[moveIndex].san) {
       setPlayerMove("correct");
       setCurrentMove(currentMove + 1);
@@ -173,7 +179,9 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
           setFen(chess.fen());
           setMoveIndex(moveIndex + 1);
           setCurrentMove(currentMove + 2);
-          setPlayerMove(chess.turn());
+          setPlayerTurn(chess.turn());
+          setShowHint(0);
+          setPlayerMove("none")
         }, 1000);
       }
     } else {

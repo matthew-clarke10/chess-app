@@ -2230,7 +2230,7 @@ const hardPuzzles = [
       {
         from: "e1",
         to: "d3",
-        san: "Nxd3+"
+        san: "Nd3+"
       },
     ],
     responseMoves: ["Kf2", "Qxe1", "Nxh6"]

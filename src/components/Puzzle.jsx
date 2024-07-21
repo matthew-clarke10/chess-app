@@ -27,28 +27,14 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
   const [playerMove, setPlayerMove] = useState("none");
 
   useEffect(() => {
-    setMoveIndex(0);
-    setFen(randomPuzzle.fen);
-    setChess(new Chess(randomPuzzle.fen));
-    setPuzzleSolved(false);
-  }, [randomPuzzle]);
+    console.log(difficulty)
+    newPuzzle(difficulty, getRandomPuzzle(difficulty), setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved)
+  }, [difficulty])
 
   useEffect(() => {
     setPlayerTurn(chess.turn());
+    setPlayerMove("none");
   }, [chess]);
-
-  useEffect(() => {
-    setArrows([]);
-    setSquareStyles({});
-    setShowHint(0);
-
-    if (!puzzleSolved && !solutionRevealed) {
-      setHint({
-        from: randomPuzzle.correctMoves[moveIndex].from,
-        to: randomPuzzle.correctMoves[moveIndex].to,
-      });
-    }
-  }, [moveIndex, randomPuzzle.correctMoves, puzzleSolved, solutionRevealed]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,18 +61,18 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
               boardOrientation={playerTurn === "w" ? "white" : "black"}
               arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, false)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setShowHint, setArrows, setSquareStyles, setMoveIndex, setFen, setPlayerMove, setPlayerTurn, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, false)
               }
             />
           </div>
         </div>
 
         <div className="flex flex-col justify-evenly w-full h-full md:h-auto xs:w-[444px] md:w-full text-center mx-auto bg-white border shadow border-text-light rounded-lg">
-          <h2 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${getPuzzleStatusClass(playerMove, puzzleSolved, playerTurn, hintGiven)}`}>{getPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven)}</h2>
+          <h2 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${getPuzzleStatusClass(playerMove, puzzleSolved, hintGiven)}`}>{getPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven)}</h2>
           {(!puzzleSolved && !solutionRevealed) && (
             <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center">
-              <button onClick={() => handleHintClick(hint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-2 border-text-light  ${!solutionRevealed && showHint !== 2 ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
-              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} disabled={solutionRevealed} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-2 border-text-light ${!solutionRevealed ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
+              <button onClick={() => handleHintClick(randomPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2 || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-2 border-text-light  ${!solutionRevealed && showHint !== 2 && playerMove === "none" ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
+              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} disabled={solutionRevealed || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-2 border-text-light ${!solutionRevealed && playerMove === "none" ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
             </div>
           )}
           {(puzzleSolved || solutionRevealed) && (
@@ -96,7 +82,7 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
                 <button onClick={() => { goForward(currentMove, history, chess, setFen, setCurrentMove) }} disabled={currentMove === history.length || solutionRevealing} className={`flex flex-1 w-full h-full justify-center items-center bg-background-light rounded border-2 border-text-light py-4 ${currentMove !== history.length && !solutionRevealing ? "hover:bg-lime-200" : "text-gray-400"}`}><FaStepForward size={window.innerWidth <= 768 ? 20 : window.innerWidth <= 1024 ? 35 : 50} /></button>
               </div>
               <div className="w-4/5 mx-auto">
-                <button onClick={() => newPuzzle(randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved)} disabled={solutionRevealing} className={`text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 w-full rounded border-2 border-text-light ${!solutionRevealing ? "hover:bg-green-600" : "opacity-50"}`}>Next Puzzle</button>
+                <button onClick={() => newPuzzle(difficulty, randomPuzzle, setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved)} disabled={solutionRevealing} className={`text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-green-500 w-full rounded border-2 border-text-light ${!solutionRevealing ? "hover:bg-green-600" : "opacity-50"}`}>Next Puzzle</button>
               </div>
             </div>
           )}
