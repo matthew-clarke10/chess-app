@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
-import { getDailyPuzzle, handleHintClick, handleSolutionClick, handleMove, goBack, goForward, getDailyPuzzleStatusClass, getPuzzleStatusText } from '../utils/chessUtils';
+import { getDailyPuzzle, handleHintClick, handleSolutionClick, handleMove, goBack, goForward, getDailyPuzzleStatusClass, getDailyPuzzleStatusText } from '../utils/chessUtils';
+import { getDailyPuzzleSolved } from '../utils/chessUtils';
 
 const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
   const [dailyPuzzle, setDailyPuzzle] = useState(getDailyPuzzle(difficulty));
@@ -32,13 +33,17 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
     setSquareStyles({});
     setShowHint(0);
 
+    if (getDailyPuzzleSolved(difficulty)) {
+      setPuzzleSolved(true);
+    }
+
     if (!puzzleSolved && !solutionRevealed) {
       setHint({
         from: dailyPuzzle.correctMoves[moveIndex].from,
         to: dailyPuzzle.correctMoves[moveIndex].to,
       });
     }
-  }, [moveIndex, dailyPuzzle.correctMoves, puzzleSolved, solutionRevealed]);
+  }, [moveIndex, dailyPuzzle.correctMoves, puzzleSolved, solutionRevealed, difficulty]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -64,13 +69,13 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
             boardOrientation={playerTurn === "w" ? "white" : "black"}
             arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
             onPieceDrop={(sourceSquare, targetSquare) =>
-              handleMove(sourceSquare, targetSquare, chess, dailyPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
+              handleMove(sourceSquare, targetSquare, chess, dailyPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, true)
             }
           />
         </div>
         <div className="h-[67px] border-b-2 border-text-light">
           <div className={`flex text-2xl text-center ${(!puzzleSolved && !solutionRevealed) ? "h-auto border-b-2 border-text-light" : "h-full"}`}>
-            <div className={`flex justify-center items-center w-full ${getDailyPuzzleStatusClass(playerMove, puzzleSolved, playerTurn, hintGiven)}`}>{getPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven)}</div>
+            <div className={`flex justify-center items-center w-full ${getDailyPuzzleStatusClass(playerMove, puzzleSolved, playerTurn, hintGiven, difficulty)}`}>{getDailyPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven, difficulty)}</div>
           </div>
           {(!puzzleSolved && !solutionRevealed) && (
             <div className="flex text-2xl text-center">

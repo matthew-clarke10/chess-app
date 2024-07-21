@@ -2,7 +2,7 @@ import { Chess } from 'chess.js';
 import easyPuzzles from '../data/easyPuzzles';
 import mediumPuzzles from '../data/mediumPuzzles';
 import hardPuzzles from '../data/hardPuzzles';
-import { getDayOfYear } from './other';
+import { getDayOfYear, getFormattedDate } from './other';
 
 export const getPuzzlesSolved = (difficulty) => {
   const puzzlesSolvedObject = localStorage.getItem(difficulty + "PuzzlesSolved");
@@ -134,7 +134,7 @@ export const handleSolutionClick = (chess, randomPuzzle, moveIndex, currentMove,
   }, 1000);
 };
 
-export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing) => {
+export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, isDailyPuzzle) => {
   const move = { from: sourceSquare, to: targetSquare };
   const legalMoves = chess.moves({ verbose: true });
   const isLegalMove = legalMoves.some(m => m.from === move.from && m.to === move.to);
@@ -162,6 +162,9 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
             ["total"]: getPuzzlesSolved("total"),
             [difficulty]: getPuzzlesSolved(difficulty),
           });
+          if (isDailyPuzzle) {
+            setDailyPuzzleSolved(difficulty);
+          }
         }
       } else {
         setTimeout(() => {
@@ -182,6 +185,42 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
     console.log(`Caught error: ${e.message}`);
   }
 };
+
+export const createDailyPuzzlesObject = () => {
+  const dailyPuzzlesObject = {
+    easy: {},
+    medium: {},
+    hard: {},
+  };
+  localStorage.setItem("dailyPuzzles", JSON.stringify(dailyPuzzlesObject));
+  return dailyPuzzlesObject;
+};
+
+export const getDailyPuzzlesObject = () => {
+  const dailyPuzzlesObject = localStorage.getItem("dailyPuzzles");
+  if (dailyPuzzlesObject) {
+    return JSON.parse(dailyPuzzlesObject);
+  } else {
+    return createDailyPuzzlesObject();
+  }
+}
+
+export const setDailyPuzzleSolved = (difficulty) => {
+  const today = getFormattedDate();
+  const dailyPuzzlesObject = getDailyPuzzlesObject();
+  dailyPuzzlesObject[difficulty][today] = "solved";
+  localStorage.setItem("dailyPuzzles", JSON.stringify(dailyPuzzlesObject));
+}
+
+export const getDailyPuzzleSolved = (difficulty) => {
+  const today = getFormattedDate();
+  const dailyPuzzlesObject = getDailyPuzzlesObject();
+  const todayPuzzle = dailyPuzzlesObject[difficulty][today];
+  if (todayPuzzle) {
+    return todayPuzzle === "solved";
+  }
+  return false;
+}
 
 export const goBack = (currentMove, chess, setFen, setCurrentMove) => {
   if (currentMove > 0) {
@@ -231,8 +270,10 @@ export const getPuzzleStatusText = (playerMove, puzzleSolved, playerTurn, hintGi
   return "Loading Puzzle";
 };
 
-export const getDailyPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, hintGiven) => {
-  if (playerMove === "incorrect") {
+export const getDailyPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, hintGiven, difficulty) => {
+  if (getDailyPuzzleSolved(difficulty)) {
+    return "bg-green-400";
+  } else if (playerMove === "incorrect") {
     return "bg-red-400";
   } else if (puzzleSolved && hintGiven) {
     return "bg-hint";
@@ -247,3 +288,23 @@ export const getDailyPuzzleStatusClass = (playerMove, puzzleSolved, playerTurn, 
   }
   return "";
 }
+
+export const getDailyPuzzleStatusText = (playerMove, puzzleSolved, playerTurn, hintGiven, difficulty) => {
+  if (getDailyPuzzleSolved(difficulty)) {
+    return "Solved";
+  } else if (playerMove === "incorrect") {
+    return "Incorrect";
+  } else if (puzzleSolved && hintGiven) {
+    return "Solved with Hint";
+  } else if (puzzleSolved) {
+    return "Solved";
+  } else if (playerMove === "correct") {
+    return "Correct";
+  } else if (playerTurn === "w") {
+    return "White to Play";
+  } else if (playerTurn === "b") {
+    return "Black to Play";
+  }
+
+  return "Loading Puzzle";
+};

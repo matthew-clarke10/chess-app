@@ -75,7 +75,7 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
               boardOrientation={playerTurn === "w" ? "white" : "black"}
               arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
               onPieceDrop={(sourceSquare, targetSquare) =>
-                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)
+                handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setMoveIndex, setFen, setPlayerMove, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, false)
               }
             />
           </div>
