@@ -621,7 +621,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],
@@ -2049,7 +2049,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],
@@ -3477,7 +3477,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],
@@ -4905,7 +4905,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],
@@ -6333,7 +6333,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],
@@ -7761,7 +7761,7 @@ const easyPuzzles = [
       {
         from: "c6",
         to: "a8",
-        san: "Qxa8++"
+        san: "Qxa8"
       },
     ],
     responseMoves: ["bxc6", "Qd7"],

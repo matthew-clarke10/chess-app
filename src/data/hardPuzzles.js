@@ -1425,7 +1425,7 @@ const hardPuzzles = [
         san: "Nxc1"
       },
     ],
-    responseMoves: ["Qxf4", "Qe3"],
+    responseMoves: ["Qxf4", "Qe3"], // Final one
   },
   {
     fen: "2r2r2/1p1b3k/3p2R1/3p3P/2nqP3/p1P2P2/PP4Q1/2K4R w - - 0 2",
