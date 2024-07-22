@@ -23,6 +23,10 @@ export default {
           light: "#4D4D4D",
           dark: "#BABABA",
         },
+        border: {
+          light: "#000",
+          dark: "#4D4D4D",
+        },
         hint: "#FFAA00",
         green: {
           light: "#8EDB35",

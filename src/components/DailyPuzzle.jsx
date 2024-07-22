@@ -60,7 +60,7 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved, boardColors }) => {
   return (
     <>
       <div className="h-full flex flex-col justify-between">
-        <div className="flex flex-col border-y-2 border-text-light">
+        <div className="flex flex-col border-y-4 border-border-light dark:border-border-dark">
           <Chessboard
             customArrows={arrows}
             customSquareStyles={squareStyles}
@@ -75,22 +75,22 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved, boardColors }) => {
             }
           />
         </div>
-        <div className="h-[67px] border-b-2 border-text-light">
-          <div className={`flex text-2xl text-center ${(!puzzleSolved && !solutionRevealed) ? "h-auto border-b-2 border-text-light" : "h-full"}`}>
+        <div className="h-[72px] border-b-4 text-black dark:text-border-dark border-border-light dark:border-border-dark">
+          <div className={`flex text-2xl text-center ${(!puzzleSolved && !solutionRevealed) ? "h-auto border-b-4 border-border-light dark:border-border-dark" : "h-full"}`}>
             <div className={`flex justify-center items-center w-full ${getDailyPuzzleStatusClass(playerMove, puzzleSolved, playerTurn, hintGiven, difficulty)}`}>{getDailyPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven, difficulty)}</div>
           </div>
           {(!puzzleSolved && !solutionRevealed) && (
             <div className="flex text-2xl text-center">
               <div className="flex-1">
-                <button onClick={() => handleHintClick(dailyPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2 || playerMove !== "none"} className={`w-full bg-yellow-300 border-r-2 border-text-light  ${!solutionRevealed && showHint !== 2 && playerMove === "none" ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
+                <button onClick={() => handleHintClick(dailyPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2 || playerMove !== "none"} className={`w-full bg-yellow-300 border-r-4 border-border-light dark:border-border-dark  ${!solutionRevealed && showHint !== 2 && playerMove === "none" ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-center">
                 <button onClick={() => handleSolutionClick(chess, dailyPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} disabled={solutionRevealed || playerMove !== "none"} className={`w-full bg-blue-400 ${!solutionRevealed && playerMove === "none" ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
               </div>
             </div>
           )}
         </div>
-      </div>
+      </div >
     </>
   )
 }

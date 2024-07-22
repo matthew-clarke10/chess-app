@@ -69,12 +69,12 @@ const Puzzle = ({ updatePuzzlesSolved, boardColors }) => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-evenly w-full h-full md:h-auto xs:w-[444px] md:w-full text-center mx-auto bg-white border shadow border-text-light rounded-lg">
+        <div className="flex flex-col justify-evenly w-full h-full md:h-auto xs:w-[444px] md:w-full text-center mx-auto bg-secondary-light dark:bg-secondary-dark border-4 border-border-light dark:border-border-dark rounded-lg">
           <h2 className={`text-4xl lg:text-5xl xl:text-6xl font-bold ${getPuzzleStatusClass(playerMove, puzzleSolved, hintGiven)}`}>{getPuzzleStatusText(playerMove, puzzleSolved, playerTurn, hintGiven)}</h2>
           {(!puzzleSolved && !solutionRevealed) && (
-            <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center">
-              <button onClick={() => handleHintClick(randomPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2 || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-2 border-text-light  ${!solutionRevealed && showHint !== 2 && playerMove === "none" ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
-              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} disabled={solutionRevealed || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-2 border-text-light ${!solutionRevealed && playerMove === "none" ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
+            <div className="flex flex-row md:flex-col gap-0 md:gap-8 w-4/5 mx-auto justify-between items-center text-black dark:text-border-dark">
+              <button onClick={() => handleHintClick(randomPuzzle, moveIndex, hint, setHint, showHint, puzzleSolved, setArrows, setSquareStyles, setShowHint, setHintGiven)} disabled={solutionRevealed || showHint === 2 || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-yellow-300 rounded border-4 border-border-light dark:border-border-dark  ${!solutionRevealed && showHint !== 2 && playerMove === "none" ? "hover:bg-yellow-400" : "opacity-50"}`}>Hint</button>
+              <button onClick={() => handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing)} disabled={solutionRevealed || playerMove !== "none"} className={`w-32 xs:w-40 md:w-full text-2xl xs:text-3xl lg:text-4xl xl:text-5xl py-2 lg:py-3 xl:py-4 bg-blue-400 rounded border-4 border-border-light dark:border-border-dark ${!solutionRevealed && playerMove === "none" ? "hover:bg-blue-500" : "opacity-50"}`}>Solution</button>
             </div>
           )}
           {(puzzleSolved || solutionRevealed) && (

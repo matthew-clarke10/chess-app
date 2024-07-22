@@ -9,8 +9,8 @@ const App = () => {
   const [theme, setTheme] = useState(null);
   const [isDeviceTheme, setIsDeviceTheme] = useState(false);
   const [boardColors, setBoardColors] = useState({
-    light: localStorage.getItem('lightSquareColor') || '#ffffff',
-    dark: localStorage.getItem('darkSquareColor') || '#000000',
+    light: localStorage.getItem('lightSquareColor') || '#F0D9B5',
+    dark: localStorage.getItem('darkSquareColor') || '#B58863',
   });
   const [puzzlesSolved, setPuzzlesSolved] = useState({
     total: getPuzzlesSolved("total"),
