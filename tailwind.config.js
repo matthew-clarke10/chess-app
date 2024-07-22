@@ -15,11 +15,19 @@ export default {
           light: "#F0ECEC",
           dark: "#181414",
         },
+        secondary: {
+          light: "#FFFFFF",
+          dark: "#3D3935",
+        },
         text: {
           light: "#4D4D4D",
           dark: "#BABABA",
         },
         hint: "#FFAA00",
+        green: {
+          light: "#8EDB35",
+          dark: "#629923",
+        },
       },
       height: {
         nav: "6rem",

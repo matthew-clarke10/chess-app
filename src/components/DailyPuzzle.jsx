@@ -5,7 +5,7 @@ import { Chess } from 'chess.js';
 import { getDailyPuzzle, handleHintClick, handleSolutionClick, handleMove, getDailyPuzzleStatusClass, getDailyPuzzleStatusText } from '../utils/chessUtils';
 import { getDailyPuzzleSolved } from '../utils/chessUtils';
 
-const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
+const DailyPuzzle = ({ difficulty, updatePuzzlesSolved, boardColors }) => {
   const [dailyPuzzle] = useState(getDailyPuzzle(difficulty));
   const [moveIndex, setMoveIndex] = useState(0);
   const [fen, setFen] = useState(dailyPuzzle.fen);
@@ -67,6 +67,8 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
             boardWidth={boardWidth}
             position={fen}
             boardOrientation={playerTurn === "w" ? "white" : "black"}
+            customLightSquareStyle={{ backgroundColor: boardColors.light }}
+            customDarkSquareStyle={{ backgroundColor: boardColors.dark }}
             arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
             onPieceDrop={(sourceSquare, targetSquare) =>
               handleMove(sourceSquare, targetSquare, chess, dailyPuzzle, moveIndex, difficulty, currentMove, hintGiven, setShowHint, setArrows, setSquareStyles, setMoveIndex, setFen, setPlayerMove, setPlayerTurn, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, true)
@@ -96,6 +98,10 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved }) => {
 DailyPuzzle.propTypes = {
   difficulty: PropTypes.oneOf(['easy', 'medium', 'hard']).isRequired,
   updatePuzzlesSolved: PropTypes.func.isRequired,
+  boardColors: PropTypes.shape({
+    light: PropTypes.string.isRequired,
+    dark: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default DailyPuzzle;

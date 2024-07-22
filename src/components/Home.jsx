@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import DailyPuzzles from './DailyPuzzles';
 import Statistics from './Statistics';
 
-const Home = ({ puzzlesSolved, updatePuzzlesSolved }) => {
+const Home = ({ puzzlesSolved, updatePuzzlesSolved, boardColors }) => {
   return (
     <main className="flex flex-col h-main">
-      <DailyPuzzles updatePuzzlesSolved={updatePuzzlesSolved} />
+      <DailyPuzzles updatePuzzlesSolved={updatePuzzlesSolved} boardColors={boardColors} />
       <Statistics puzzlesSolved={puzzlesSolved} />
     </main>
   )
@@ -20,6 +20,10 @@ Home.propTypes = {
     hard: PropTypes.number.isRequired,
   }).isRequired,
   updatePuzzlesSolved: PropTypes.func.isRequired,
+  boardColors: PropTypes.shape({
+    light: PropTypes.string.isRequired,
+    dark: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Home;

@@ -6,7 +6,7 @@ import { Chess } from 'chess.js';
 import { getRandomPuzzle, newPuzzle, handleHintClick, handleSolutionClick, handleMove, goBack, goForward, calculateBoardWidth, getPuzzleStatusClass, getPuzzleStatusText } from '../utils/chessUtils';
 import { FaStepBackward, FaStepForward } from "react-icons/fa";
 
-const Puzzle = ({ updatePuzzlesSolved }) => {
+const Puzzle = ({ updatePuzzlesSolved, boardColors }) => {
   const { difficulty } = useParams();
   const [randomPuzzle, setRandomPuzzle] = useState(getRandomPuzzle(difficulty));
   const [moveIndex, setMoveIndex] = useState(0);
@@ -59,6 +59,8 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
               boardWidth={boardWidth}
               position={fen}
               boardOrientation={playerTurn === "w" ? "white" : "black"}
+              customLightSquareStyle={{ backgroundColor: boardColors.light }}
+              customDarkSquareStyle={{ backgroundColor: boardColors.dark }}
               arePiecesDraggable={!solutionRevealing && !solutionRevealed && !puzzleSolved}
               onPieceDrop={(sourceSquare, targetSquare) =>
                 handleMove(sourceSquare, targetSquare, chess, randomPuzzle, moveIndex, difficulty, currentMove, hintGiven, setShowHint, setArrows, setSquareStyles, setMoveIndex, setFen, setPlayerMove, setPlayerTurn, setPuzzleSolved, updatePuzzlesSolved, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing, false)
@@ -94,6 +96,10 @@ const Puzzle = ({ updatePuzzlesSolved }) => {
 
 Puzzle.propTypes = {
   updatePuzzlesSolved: PropTypes.func.isRequired,
+  boardColors: PropTypes.shape({
+    light: PropTypes.string.isRequired,
+    dark: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Puzzle;
