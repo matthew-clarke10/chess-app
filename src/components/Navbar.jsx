@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link, Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const Navbar = ({ theme, changeTheme, boardColors, changeBoardColors, isDeviceTheme }) => {
   const [isThemeDropdownOpen, setIsThemeDropdownOpen] = useState(false);
