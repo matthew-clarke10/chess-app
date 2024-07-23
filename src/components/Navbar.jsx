@@ -49,7 +49,7 @@ const Navbar = ({ theme, changeTheme, boardColors, changeBoardColors, isDeviceTh
     <>
       <nav className="flex gap-2 h-nav px-4 md:px-8 py-4 bg-dark-nav text-xl border-b-4 border-border-light dark:border-border-dark w-full">
         <Link to="/" className="flex items-center gap-4 text-3xl md:text-5xl hover:cursor-pointer">
-          <img className="block xs:hidden md:block" width={64} height={64} src="/favicon.png" alt="ChessPuzzler Logo" />
+          <img className="block xs:hidden md:block" width={64} height={64} src="/chess-app/favicon.ico" alt="ChessPuzzler Logo" />
           <h1 className="hidden xs:block text-3xl md:text-5xl py-2 md:p-0">ChessPuzzler</h1>
         </Link>
         <div className="relative flex lg:hidden flex-grow gap-4 justify-end items-center text-center ml-auto mr-2 md:mr-6">
