@@ -27,7 +27,6 @@ const Puzzle = ({ updatePuzzlesSolved, boardColors }) => {
   const [playerMove, setPlayerMove] = useState("none");
 
   useEffect(() => {
-    console.log(difficulty)
     newPuzzle(difficulty, getRandomPuzzle(difficulty), setRandomPuzzle, setMoveIndex, setCurrentMove, setFen, setChess, setBoardWidth, setArrows, setSquareStyles, setHint, setShowHint, setHintGiven, setSolutionRevealed, setSolutionRevealing, setPuzzleSolved)
   }, [difficulty])
 

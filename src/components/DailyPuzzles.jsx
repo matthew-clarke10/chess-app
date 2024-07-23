@@ -4,6 +4,7 @@ import DailyPuzzle from "./DailyPuzzle";
 
 const DailyPuzzles = ({ updatePuzzlesSolved, boardColors }) => {
   const [difficulty, setDifficulty] = useState("easy");
+
   return (
     <section className="py-4">
       <h1 className="text-4xl text-center pb-2 font-bold">Daily Puzzles</h1>

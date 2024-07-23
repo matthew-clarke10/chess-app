@@ -1454,7 +1454,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],
@@ -3019,7 +3019,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],
@@ -4584,7 +4584,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],
@@ -6149,7 +6149,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],
@@ -7714,7 +7714,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],
@@ -9279,7 +9279,7 @@ const mediumPuzzles = [
       {
         from: "h6",
         to: "g7",
-        san: "Qxg7+"
+        san: "Qxg7#"
       },
     ],
     responseMoves: ["Kg8"],

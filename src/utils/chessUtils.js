@@ -144,7 +144,6 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
   const isLegalMove = legalMoves.some(m => m.from === move.from && m.to === move.to);
 
   if (!isLegalMove) {
-    console.log(`Invalid move: from ${sourceSquare} to ${targetSquare}`);
     return;
   }
 
@@ -156,7 +155,6 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
       setPlayerMove("correct");
       setCurrentMove(currentMove + 1);
       setFen(chess.fen());
-      console.log(`Correct move: ${result.san}`);
 
       if (moveIndex === randomPuzzle.responseMoves.length) {
         setHistory(chess.history({ verbose: true }));
@@ -187,7 +185,6 @@ export const handleMove = (sourceSquare, targetSquare, chess, randomPuzzle, move
     } else {
       chess.undo();
       handleSolutionClick(chess, randomPuzzle, moveIndex, currentMove, setFen, setPlayerMove, setCurrentMove, setHistory, setSolutionRevealed, setSolutionRevealing);
-      console.log(`Incorrect move: ${result.san}`);
     }
   } catch (e) {
     console.log(`Caught error: ${e.message}`);

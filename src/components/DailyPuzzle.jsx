@@ -6,10 +6,10 @@ import { getDailyPuzzle, handleHintClick, handleSolutionClick, handleMove, getDa
 import { getDailyPuzzleSolved } from '../utils/chessUtils';
 
 const DailyPuzzle = ({ difficulty, updatePuzzlesSolved, boardColors }) => {
-  const [dailyPuzzle] = useState(getDailyPuzzle(difficulty));
+  const [dailyPuzzle, setDailyPuzzle] = useState(getDailyPuzzle(difficulty));
   const [moveIndex, setMoveIndex] = useState(0);
   const [fen, setFen] = useState(dailyPuzzle.fen);
-  const [chess] = useState(new Chess(dailyPuzzle.fen));
+  const [chess, setChess] = useState(new Chess(dailyPuzzle.fen));
   const [boardWidth, setBoardWidth] = useState(300);
   const [arrows, setArrows] = useState([]);
   const [squareStyles, setSquareStyles] = useState({});
@@ -23,6 +23,27 @@ const DailyPuzzle = ({ difficulty, updatePuzzlesSolved, boardColors }) => {
   const [solutionRevealed, setSolutionRevealed] = useState(false);
   const [playerTurn, setPlayerTurn] = useState("");
   const [playerMove, setPlayerMove] = useState("none");
+
+  useEffect(() => {
+    const puzzle = getDailyPuzzle(difficulty);
+    setDailyPuzzle(puzzle);
+    setMoveIndex(0);
+    setFen(puzzle.fen);
+    setChess(new Chess(puzzle.fen));
+    setBoardWidth(300);
+    setArrows([]);
+    setSquareStyles({});
+    setHint({});
+    setHintGiven(false);
+    setShowHint(0);
+    setPuzzleSolved(getDailyPuzzleSolved(difficulty));
+    setHistory([]);
+    setCurrentMove(0);
+    setSolutionRevealing(false);
+    setSolutionRevealed(false);
+    setPlayerTurn("");
+    setPlayerMove("none");
+  }, [difficulty]);
 
   useEffect(() => {
     setPlayerTurn(chess.turn());
